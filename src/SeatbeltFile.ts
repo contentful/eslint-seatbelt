@@ -154,6 +154,7 @@ export class SeatbeltFile {
 
   public changed = false
   private readonly dirname: string
+  private useTempDirForWrites = true
 
   constructor(
     public readonly filename: string,
@@ -338,12 +339,29 @@ export class SeatbeltFile {
     const dir = nodePath.dirname(this.filename)
     const base = nodePath.basename(this.filename)
     const tempFile = nodePath.join(
-      os.tmpdir(),
+      this.useTempDirForWrites ? os.tmpdir() : dir,
       `.${base}.wip${process.pid}.${Date.now()}.tmp`,
     )
     fs.mkdirSync(dir, { recursive: true })
     fs.writeFileSync(tempFile, dataString, "utf8")
-    fs.renameSync(tempFile, this.filename)
+    try {
+      fs.renameSync(tempFile, this.filename)
+    } catch (error) {
+      // If $TMPDIR is on a different filesystem from the git repo, we won't be
+      // able to move the tempfile over the existing file.
+      //
+      // In such cases copy & remove the tempfile instead, and then prefer to create
+      // tempfiles in the desination dir.
+      //
+      // https://github.com/justjake/eslint-seatbelt/issues/7
+      if (isErrno(error, 'EXDEV')) {
+        this.useTempDirForWrites = false
+        fs.copyFileSync(tempFile, this.filename)
+        fs.rmSync(tempFile)
+        return
+      }
+      throw error
+    }
   }
 
   toJSON(): SeatbeltFileJson {
