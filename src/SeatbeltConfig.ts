@@ -381,6 +381,12 @@ export const SeatbeltConfig = {
       config.verbose = verbose
       log?.(`${padVarName(SEATBELT_VERBOSE)} config.verbose =`, verbose)
     }
+    const seatbeltFile = env[SEATBELT_FILE]
+    if (seatbeltFile) {
+      const rootRelative = path.isAbsolute(seatbeltFile) ? seatbeltFile : path.join(config.pwd, seatbeltFile)
+      config.seatbeltFile = rootRelative
+      log?.(`${padVarName(SEATBELT_FILE)} config.seatbeltFile =`, rootRelative)
+    }
     const disable = SeatbeltEnv.readBooleanEnvVar(env[SEATBELT_DISABLE])
     if (disable !== undefined) {
       config.disable = disable
