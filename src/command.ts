@@ -21,14 +21,6 @@ export interface SeatbeltCliConfig extends SeatbeltConfig {
   help?: boolean
 }
 
-const SHOW_CONFIG_KEYS: Record<keyof SeatbeltConfig, true> = {
-  seatbeltFile: true,
-  keepRules: true,
-  allowIncreaseRules: true,
-  frozen: true,
-  disable: true,
-}
-
 const ZERO_WIDTH_SPACE = "\u200B"
 
 function parseArgs() {
