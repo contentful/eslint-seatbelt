@@ -1,4 +1,4 @@
-import { RuleId } from "./SeatbeltFile"
+import type { RuleId } from "./SeatbeltFile"
 import { name } from "../package.json"
 import path from "node:path"
 import { findRepoRoot } from "./repoIntegration"
