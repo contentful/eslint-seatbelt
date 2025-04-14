@@ -81,6 +81,7 @@ interface SeatbeltStateFileData {
 }
 
 const COMMENT_LINE_REGEX = /^\s*#/
+const NON_EMPTY_LINE_REGEX = /\S+/
 
 const DEFAULT_FILE_HEADER = `
 # ${name} temporarily allowed errors
@@ -125,7 +126,7 @@ export class SeatbeltFile {
     const lines = split
       .filter(
         (line) =>
-          line !== "" && line !== "\n" && !COMMENT_LINE_REGEX.test(line),
+          NON_EMPTY_LINE_REGEX.test(line) && !COMMENT_LINE_REGEX.test(line),
       )
       .map(decodeLine)
     const comments = split
