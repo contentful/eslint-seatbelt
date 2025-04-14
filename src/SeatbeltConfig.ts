@@ -119,8 +119,6 @@ export interface SeatbeltConfig {
    *   typechecking. Since these rules require typechecking, they can be too
    *   slow to run in interactive contexts.
    *
-   * To avoid seatbelt from mistakenly removing
-   *
    * To avoid this, set `keepRules` to the names of *disabled but known rules*
    * while linting.
    *
