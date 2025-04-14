@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@types/eslint':
-        specifier: '>=9'
+        specifier: '*'
         version: 9.6.1
       ts-command-line-args:
         specifier: ^2.5.1
