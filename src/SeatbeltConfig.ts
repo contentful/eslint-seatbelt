@@ -354,7 +354,8 @@ export const SeatbeltConfig = {
     log?: (...message: unknown[]) => void,
   ): SeatbeltConfig {
     const config: SeatbeltConfig = {}
-    if (env.CI) {
+    const isCI = SeatbeltEnv.readBooleanEnvVar(env.CI)
+    if (isCI) {
       config.frozen = true
       log?.(`${padVarName("CI")} config.frozen defaults to`, true)
     }
