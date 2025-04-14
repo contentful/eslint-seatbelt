@@ -48,6 +48,7 @@ describe("SeatbeltFile", () => {
     )
 
     const args: SeatbeltArgs = {
+      root: "/test",
       seatbeltFile: "/test/sourceCode.ts",
       keepRules: new Set(["@typescript-eslint/keep"]),
       allowIncreaseRules: new Set(),

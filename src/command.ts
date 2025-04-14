@@ -1,10 +1,10 @@
 #!/usr/bin/env -S pnpm exec tsx
 
 import {
+  FallbackEnv,
   logStderr,
-  SeatbeltArgs,
   SeatbeltConfig,
-  SeatbeltConfigWithPwd,
+  SeatbeltEnv,
 } from "./SeatbeltConfig"
 import { parse } from "ts-command-line-args"
 import { SeatbeltConfigSchema } from "./jsonSchema/SeatbeltConfigSchema"
@@ -21,19 +21,11 @@ export interface SeatbeltCliConfig extends SeatbeltConfig {
   help?: boolean
 }
 
-const SHOW_CONFIG_KEYS: Record<keyof SeatbeltConfig, true> = {
-  seatbeltFile: true,
-  keepRules: true,
-  allowIncreaseRules: true,
-  frozen: true,
-  disable: true,
-}
-
 const ZERO_WIDTH_SPACE = "\u200B"
 
 function parseArgs() {
-  const fallback = SeatbeltConfig.fromFallbackEnv(process.env as any)
-  const overrides = SeatbeltConfig.fromEnvOverrides(process.env as any)
+  const fallback = SeatbeltConfig.fromFallbackEnv(process.env as unknown as FallbackEnv)
+  const overrides = SeatbeltConfig.fromEnvOverrides(process.env as unknown as SeatbeltEnv)
   const env = { ...fallback, ...overrides }
   const escapeForChalk = (s: string) =>
     s

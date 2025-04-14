@@ -17,6 +17,9 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   seatbelt.configs.enable,
   {
+    ignores: ['integration/**/*'],
+  },
+  {
     rules: {
       "@typescript-eslint/ban-ts-comment": "error",
       "no-console": "error",

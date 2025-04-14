@@ -1,4 +1,4 @@
-import { RuleId } from "./SeatbeltFile"
+import type { RuleId } from "./SeatbeltFile"
 import { name } from "../package.json"
 import path from "node:path"
 import { findRepoRoot } from "./repoIntegration"
@@ -118,8 +118,6 @@ export interface SeatbeltConfig {
    * - A CI-only ESLint config with only type-aware rules enabled that requires
    *   typechecking. Since these rules require typechecking, they can be too
    *   slow to run in interactive contexts.
-   *
-   * To avoid seatbelt from mistakenly removing
    *
    * To avoid this, set `keepRules` to the names of *disabled but known rules*
    * while linting.
@@ -356,7 +354,8 @@ export const SeatbeltConfig = {
     log?: (...message: unknown[]) => void,
   ): SeatbeltConfig {
     const config: SeatbeltConfig = {}
-    if (env.CI) {
+    const isCI = SeatbeltEnv.readBooleanEnvVar(env.CI)
+    if (isCI) {
       config.frozen = true
       log?.(`${padVarName("CI")} config.frozen defaults to`, true)
     }
@@ -382,6 +381,12 @@ export const SeatbeltConfig = {
     if (verbose !== undefined) {
       config.verbose = verbose
       log?.(`${padVarName(SEATBELT_VERBOSE)} config.verbose =`, verbose)
+    }
+    const seatbeltFile = env[SEATBELT_FILE]
+    if (seatbeltFile) {
+      const rootRelative = path.isAbsolute(seatbeltFile) ? seatbeltFile : path.join(config.pwd, seatbeltFile)
+      config.seatbeltFile = rootRelative
+      log?.(`${padVarName(SEATBELT_FILE)} config.seatbeltFile =`, rootRelative)
     }
     const disable = SeatbeltEnv.readBooleanEnvVar(env[SEATBELT_DISABLE])
     if (disable !== undefined) {
