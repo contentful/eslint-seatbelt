@@ -22,6 +22,7 @@
     "url": "https://github.com/justjake/eslint-seatbelt/issues"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "./scripts/make-json-schemas.ts && tsc && tsup",
     "test": "node --test --require tsx/cjs $(find src -name '*.test.ts')",
     "lint": "pnpm build && NODE_OPTIONS='--enable-source-maps' eslint ."
