@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "eslint": "7"
+    "eslint": "9"
   },
   "devDependencies": {
     "eslint-plugin-eslint-seatbelt": "npm:eslint-seatbelt@^0.1.1"
