@@ -1,0 +1,5 @@
+# Hold packages published less than 2 days ago. pnpm counts in minutes (2880 = 2 days).
+minimumReleaseAge: 2880
+
+# Lifecycle (build) scripts of dependencies do not run on install.
+ignoreScripts: true
